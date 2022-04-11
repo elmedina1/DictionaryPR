@@ -10,6 +10,7 @@ export default function DictionarySearch() {
 
   function saveSearchKeyword(event) {
     saveKeyword(event.target.value);
+    alert(keyword);
   }
 
   return (
