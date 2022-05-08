@@ -1,38 +1,51 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import Results from "./Results";
+import Results from './Results';
+import './Dictionary.css';
 
-export default function DictionarySearch() {
-  let [keyword, saveKeyword] = useState("");
-  let [results, setResults] =useState(null);
+export default function DictionarySearch(props) {
+  let [keyword, saveKeyword] = useState(props.defaultWord);
+  let [results, setResults] = useState(null);
+  let [loaded, setLoaded] = useState(false);
 
-    function handleResponse(response){
+  function handleResponse(response) {
     console.log(response);
     setResults(response.data[0]);
-}
+  }
 
-function searchKeyword(event) {
-    event.preventDefault();
-  
-    let apiUrl=`https://api.dictionaryapi.dev/api/v2/entries/en/${keyword}`;
-    console.log("api yrl"+apiUrl);
+  function load() {
+    setLoaded(true);
+    search();
+  }
+  function search() {
+    let apiUrl = `https://api.dictionaryapi.dev/api/v2/entries/en/${keyword}`;
+    console.log('api yrl' + apiUrl);
     axios.get(apiUrl).then(handleResponse);
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    search();
   }
 
   //
 
   function saveSearchKeyword(event) {
     saveKeyword(event.target.value);
-  console.log("riject", keyword);
-  
+    console.log('riject', keyword);
   }
+  if (loaded) {
+    return (
+      <div className="DictionarySearch">
+        <form onSubmit={handleSubmit}>
+          <input type="search" onChange={saveSearchKeyword} />
+        </form>
 
-  return (
-    <div className="DictionarySearch">
-      <form onSubmit={searchKeyword}>
-        <input type="search" onChange={saveSearchKeyword} />
-      </form>
-      <Results results={results}/>
-    </div>
-  );
+        <Results results={results} />
+      </div>
+    );
+  } else {
+    load();
+    return 'Loading...';
+  }
 }

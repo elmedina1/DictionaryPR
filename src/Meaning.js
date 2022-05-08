@@ -12,10 +12,9 @@ export default function Meaning(props) {
             <strong>Definition</strong>
             <p>
               {definition.definition}
-              <strong>Example:</strong>
+              <br />
               <em>{definition.example}</em>
-              <Synonyms synonyms={definition.synonyms}/>
-           
+              <Synonyms synonyms={definition.synonyms} />
             </p>
           </div>
         );

@@ -9,7 +9,7 @@ function App() {
         <img src={logo} alt="fox-logo" />
       </div>
       <main>
-        <DictionarySearch />
+        <DictionarySearch defaultWord="sunset" />
       </main>
     </div>
   );
